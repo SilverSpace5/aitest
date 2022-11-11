@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Game.gd" type="Script" id=1]
+
+[node name="Game" type="Node2D"]
+script = ExtResource( 1 )
+maxEntities = 200.0
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PoolVector2Array( 18, 5, 1007, -12, 1039, 605, 5, 606, 7, 10, -60, -53, -53, 670, 1127, 702, 1119, -68, -62, -72 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+visible = false
+position = Vector2( 512, 300 )
+smoothing_enabled = true
+smoothing_speed = 2.5
+
+[node name="Entities" type="Node2D" parent="."]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+visible = false
+polygon = PoolVector2Array( -84, -68, 1114, -67, 1125, 701, -72, 672, -87, -67, 0, -10, 3, 605, 1036, 606, 1016, -15, 10, -9 )
