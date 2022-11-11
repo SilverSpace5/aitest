@@ -8,15 +8,15 @@ var vel = 0
 
 func _ready():
 	get_parent().get_parent().entities += 1
-	brain.setInput([3, 4, 5, 2])
 
 func _process(delta):
 	
 	var du = $up.get_collision_point().y-position.y
-	var dd = $up.get_collision_point().y-position.y
-	var dl = $up.get_collision_point().y-position.y
-	var dr = $up.get_collision_point().y-position.y
+	var dd = $down.get_collision_point().y-position.y
+	var dl = $left.get_collision_point().x-position.x
+	var dr = $right.get_collision_point().x-position.x
 	
+	brain.setInput([du, dd, dl, dr])
 	brain.update()
 	var output = brain.output()
 	if output[0] > 0.5:
