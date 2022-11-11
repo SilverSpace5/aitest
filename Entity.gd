@@ -1,5 +1,5 @@
 extends KinematicBody2D
-
+#HI
 var brain = AiNet.AINet.new(4, 3, 3, 3)
 var braincopy = []
 export (float) var speed = 50
