@@ -4,7 +4,7 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
-maxEntities = 200.0
+maxEntities = 250
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 

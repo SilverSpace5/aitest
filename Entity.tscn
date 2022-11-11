@@ -130,3 +130,11 @@ autoplay = "spawn"
 anims/RESET = SubResource( 2 )
 anims/despawn = SubResource( 4 )
 anims/spawn = SubResource( 3 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = -8.0
+margin_top = -38.0
+margin_right = 36.018
+margin_bottom = -24.0
+rect_scale = Vector2( 2, 2 )
+text = "0"
