@@ -9,7 +9,7 @@ maxEntities = 200.0
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
-polygon = PoolVector2Array( 18, 5, 1007, -12, 1039, 605, 5, 606, 7, 10, -60, -53, -53, 670, 1127, 702, 1119, -68, -62, -72 )
+polygon = PoolVector2Array( 0, 0, 1024, -1, 1025, 601, 0, 600, -1, 0, -62, -72, -53, 669, 1127, 702, 1119, -68, -62, -72 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 visible = false
