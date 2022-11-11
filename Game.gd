@@ -55,6 +55,6 @@ func _process(delta):
 			spawn(Vector2(rand_range(50, 950), rand_range(50, 550)))
 
 func _ready():
-	for i in range(100):
+	for i in range(1000):
 		randomize()
 		spawn(Vector2(rand_range(50, 950), rand_range(50, 550)))
