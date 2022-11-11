@@ -1,8 +1,11 @@
 extends Node2D
 
 var entities = 0
-export (float) var maxEntities = 10
+var food = 0
+export (int) var maxEntities = 10
+export (int) var maxFood = 25
 var timer = 0
+var foodTimer = 0
 
 func spawn(pos=Vector2(0, 0), net=[]):
 	if entities < maxEntities:
@@ -13,6 +16,16 @@ func spawn(pos=Vector2(0, 0), net=[]):
 			entity.braincopy = net
 
 func _process(delta):
+	
+	foodTimer += delta
+	if foodTimer > 0.1:
+		foodTimer = 0
+		if food < maxFood:
+			food += 1
+			var food = load("res://food.tscn").instance()
+			add_child(food)
+			food.position = Vector2(rand_range(50, 950), rand_range(50, 550))
+	
 	if entities > 0:
 		$Camera2D.zoom = Vector2(0.5, 0.5)
 		var posXs = []
