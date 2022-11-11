@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Entity.gd" type="Script" id=1]
 [ext_resource path="res://bean.png" type="Texture" id=2]
@@ -89,6 +89,9 @@ tracks/1/keys = {
 "values": [ 360.0, 0.0 ]
 }
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 14, 16 )
+
 [node name="Entity" type="KinematicBody2D"]
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
@@ -132,9 +135,19 @@ anims/despawn = SubResource( 4 )
 anims/spawn = SubResource( 3 )
 
 [node name="Label" type="Label" parent="."]
-margin_left = -8.0
+margin_left = -44.0
 margin_top = -38.0
-margin_right = 36.018
+margin_right = 0.0180016
 margin_bottom = -24.0
 rect_scale = Vector2( 2, 2 )
 text = "0"
+align = 1
+
+[node name="foodDetect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="foodDetect"]
+modulate = Color( 0, 1, 0.156863, 1 )
+position = Vector2( 48, 0 )
+shape = SubResource( 5 )
+
+[connection signal="area_entered" from="foodDetect" to="." method="_on_foodDetect_area_entered"]

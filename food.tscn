@@ -8,9 +8,9 @@ extents = Vector2( 9.99919, 6.90223 )
 [node name="Food" type="Sprite"]
 texture = ExtResource( 1 )
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="food" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="food"]
 position = Vector2( -0.550492, 0.714829 )
 rotation = 0.656244
 shape = SubResource( 1 )

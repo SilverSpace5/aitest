@@ -1,15 +1,25 @@
 extends KinematicBody2D
 
 var brain = AiNet.AINet.new(4, 3, 3, 3)
+var braincopy = []
 export (float) var speed = 50
 export (float) var rotateSpeed = 3
+export (float) var maxEnergy = 250
+var energy = maxEnergy
 var vel = 0
-
+var move = Vector2(0, 0)
 
 func _ready():
 	get_parent().get_parent().entities += 1
 
 func _process(delta):
+	if braincopy != []:
+		brain.copy(braincopy)
+		brain.change(5, 100, 3, 50, 1, 10)
+		braincopy = []
+	
+	energy -= 1
+	$Label.text = str(round(energy/maxEnergy*100)) + "%"
 	
 	var du = $up.get_collision_point().y-position.y
 	var dd = $down.get_collision_point().y-position.y
@@ -26,8 +36,19 @@ func _process(delta):
 	if output[2] > 0.5:
 		rotation_degrees -= rotateSpeed
 	
+	if energy <= 0:
+		get_parent().get_parent().entities -= 1
+		queue_free()
+	
 	vel *= 0.9
+	var oldPos = position
 	move_and_slide(Vector2(speed, 0).rotated(rotation))
+	move = position-oldPos
 	
-	
-	
+
+func _on_foodDetect_area_entered(area):
+	if area.name == "food":
+		energy = maxEnergy
+		area.get_parent().queue_free()
+		get_parent().get_parent().food -= 1
+		get_parent().get_parent().spawn(position-move*5, brain.nodes)
