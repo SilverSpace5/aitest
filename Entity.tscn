@@ -1,10 +1,9 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Entity.gd" type="Script" id=1]
 [ext_resource path="res://bean.png" type="Texture" id=2]
 [ext_resource path="res://defualt.tres" type="DynamicFont" id=3]
 [ext_resource path="res://raycast.png" type="Texture" id=4]
-[ext_resource path="res://light.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 22, 6 )
@@ -260,10 +259,5 @@ custom_constants/shadow_offset_y = 1
 custom_fonts/font = ExtResource( 3 )
 text = "0"
 align = 1
-
-[node name="Light2D" type="Light2D" parent="."]
-scale = Vector2( 15, 15 )
-texture = ExtResource( 5 )
-energy = 0.54
 
 [connection signal="area_entered" from="foodDetect" to="." method="_on_foodDetect_area_entered"]
