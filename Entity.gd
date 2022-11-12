@@ -16,6 +16,8 @@ func _ready():
 	get_parent().get_parent().entities += 1
 
 func _process(delta):
+	
+	print(brain.nodes)
 	time += delta
 #	print(brain.nodes[0])
 #	print(brain.nodes[1])
@@ -59,7 +61,7 @@ func _process(delta):
 
 func _on_foodDetect_area_entered(area):
 	if area.name == "food":
-		energy = maxEnergy
+		energy += 37.5
 		area.get_parent().queue_free()
 		get_parent().get_parent().food -= 1
 		get_parent().get_parent().spawn(position-move*3, brain.nodes)
