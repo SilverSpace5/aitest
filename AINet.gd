@@ -83,3 +83,31 @@ class AINet:
 						if not i4 in connected and i4 != nodes.find(nodes[i2]):
 							connected.append(i4)
 							nodes[i2][1].append([i4, rand_range(-2, 2)])
+	
+	func visual(node:Node2D):
+		for child in node.get_children():
+			child.queue_free()
+		var x = 0
+		var y = 0
+		var i = 0
+		for i2 in range(inputs):
+			var node2 = load("res://Node.tscn").instance()
+			node.add_child(node2)
+			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
+			y += 1
+			i += 1
+		y = 0
+		x += 32
+		for i2 in range(len(nodes)-inputs-outputs):
+			var node2 = load("res://Node.tscn").instance()
+			node.add_child(node2)
+			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
+			i += 1
+		x = round(len(nodes)/inputs)
+		y = 0
+		for i2 in range(outputs):
+			var node2 = load("res://Node.tscn").instance()
+			node.add_child(node2)
+			node2.position = Vector2(x*16, y*16)
+			y+=1
+			

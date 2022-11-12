@@ -5,8 +5,8 @@
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
 cameraSpeed = 10
-startEntities = 25
-maxEntities = 150
+startEntities = 1
+maxEntities = 1
 maxFood = 200
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -35,3 +35,5 @@ smoothing_speed = 2.5
 [node name="Entities" type="Node2D" parent="."]
 
 [node name="food" type="Node2D" parent="."]
+
+[node name="visual" type="Node2D" parent="."]
