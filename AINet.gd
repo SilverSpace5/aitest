@@ -87,27 +87,30 @@ class AINet:
 	func visual(node:Node2D):
 		for child in node.get_children():
 			child.queue_free()
+		var i = 0
 		var x = 0
 		var y = 0
-		var i = 0
 		for i2 in range(inputs):
 			var node2 = load("res://Node.tscn").instance()
 			node.add_child(node2)
-			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
+			node2.position = Vector2(x*16, y*16)
 			y += 1
+			if i % inputs == 0:
+				y = 0
+				x += 1
 			i += 1
-		y = 0
-		x += 32
 		for i2 in range(len(nodes)-inputs-outputs):
 			var node2 = load("res://Node.tscn").instance()
 			node.add_child(node2)
 			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
+			y += 1
+			if i % round(inputs/2) == 0:
+				y = 0
+				x += 1
 			i += 1
-		x = round(len(nodes)/inputs)
-		y = 0
 		for i2 in range(outputs):
 			var node2 = load("res://Node.tscn").instance()
 			node.add_child(node2)
-			node2.position = Vector2(x*16, y*16)
-			y+=1
+			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
+			i += 1
 			
