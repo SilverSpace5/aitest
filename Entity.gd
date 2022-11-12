@@ -1,21 +1,24 @@
 extends KinematicBody2D
 #HI
-var brain = AiNet.AINet.new(4, 3, 3, 3)
+var brain = AiNet.AINet.new(5, 3, 3, 3)
 var braincopy = []
 export (float) var speed = 50
 export (float) var rotateSpeed = 3
 export (float) var maxEnergy = 250
 var energy = maxEnergy
 var vel = 0
+var time = 0
 var move = Vector2(0, 0)
+var longestTime = 0
 
 func _ready():
 	get_parent().get_parent().entities += 1
 
 func _process(delta):
+	time += delta
 	if braincopy != []:
 		brain.copy(braincopy)
-		brain.change(5, 100, 3, 50, 1, 10)
+		brain.change(5, 100, 3, 100, 1, 100)
 		braincopy = []
 	
 	energy -= 1
@@ -26,7 +29,7 @@ func _process(delta):
 	var dl = $left.get_collision_point().x-position.x
 	var dr = $right.get_collision_point().x-position.x
 	
-	brain.setInput([du, dd, dl, dr])
+	brain.setInput([du, dd, dl, dr, 1])
 	brain.update()
 	var output = brain.output()
 	if output[0] > 0.5:
@@ -38,11 +41,14 @@ func _process(delta):
 	
 	if energy <= 0:
 		get_parent().get_parent().entities -= 1
+		if time > get_parent().get_parent().longestTime:
+			get_parent().get_parent().longestTime = time
+			get_parent().get_parent().lastNet = brain.nodes
 		queue_free()
 	
 	vel *= 0.9
 	var oldPos = position
-	move_and_slide(Vector2(speed, 0).rotated(rotation))
+	move_and_slide(Vector2(vel, 0).rotated(rotation))
 	move = position-oldPos
 	
 
@@ -51,4 +57,4 @@ func _on_foodDetect_area_entered(area):
 		energy = maxEnergy
 		area.get_parent().queue_free()
 		get_parent().get_parent().food -= 1
-		get_parent().get_parent().spawn(position-move*5, brain.nodes)
+		get_parent().get_parent().spawn(position-move*3, brain.nodes)

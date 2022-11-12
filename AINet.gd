@@ -64,7 +64,7 @@ class AINet:
 					node[1].insert(i2, [round(rand_range(0, len(nodes)-1)), rand_range(-2, 2)])
 		for i in range(round(rand_range(0, maxNodes))):
 			if rand_range(0, 100) < nodeChance:
-				if len(nodes) > 0 and round(rand_range(0, 1)) == 0:
+				if len(nodes) > self.inputs + self.outputs and round(rand_range(0, 1)) == 0:
 					var node = nodes[round(rand_range(0, len(nodes)-1))]
 					for node2 in nodes:
 						var found = false

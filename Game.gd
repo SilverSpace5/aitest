@@ -6,6 +6,8 @@ export (int) var maxEntities = 10
 export (int) var maxFood = 25
 var timer = 0
 var foodTimer = 0
+var lastNet = []
+var longestTime = 0
 
 func spawn(pos=Vector2(0, 0), net=[]):
 	if entities < maxEntities:
@@ -18,13 +20,13 @@ func spawn(pos=Vector2(0, 0), net=[]):
 func _process(delta):
 	
 	foodTimer += delta
-	if foodTimer > 0.1:
+	if foodTimer > 0:
 		foodTimer = 0
 		if food < maxFood:
 			food += 1
 			var food = load("res://food.tscn").instance()
 			add_child(food)
-			food.position = Vector2(rand_range(50, 950), rand_range(50, 550))
+			food.position = Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500))
 	
 	if entities > 0:
 		$Camera2D.zoom = Vector2(0.5, 0.5)
@@ -65,9 +67,9 @@ func _process(delta):
 	if entities < 1:
 		for i in range(100):
 			randomize()
-			spawn(Vector2(rand_range(50, 950), rand_range(50, 550)))
+			spawn(Vector2(rand_range(50, 950), rand_range(50, 550)), lastNet)
 
 func _ready():
-	for i in range(1000):
+	for i in range(100):
 		randomize()
 		spawn(Vector2(rand_range(50, 950), rand_range(50, 550)))
