@@ -18,7 +18,6 @@ func spawn(pos=Vector2(0, 0), net=[]):
 			entity.braincopy = net
 
 func _process(delta):
-	
 	foodTimer += delta
 	if foodTimer > 0:
 		foodTimer = 0
