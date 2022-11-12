@@ -14,6 +14,7 @@ var see = 0
 var dying = 0
 var raycasts = []
 var raycastShows = []
+var showTimer = 0
 onready var game = get_parent().get_parent()
 
 func _ready():
@@ -25,7 +26,10 @@ func _ready():
 		raycastShows.append(child)
 
 func _process(delta):
-	brain.visual(game.get_node("CanvasLayer/visual"))
+	showTimer += delta
+	if showTimer > 1:
+		showTimer = 0
+		brain.visual(game.get_node("CanvasLayer/visual"))
 	time += delta
 #	print(brain.nodes[0])
 #	print(brain.nodes[1])
