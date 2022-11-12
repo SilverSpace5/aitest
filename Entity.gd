@@ -16,8 +16,6 @@ func _ready():
 	get_parent().get_parent().entities += 1
 
 func _process(delta):
-	
-	print(brain.nodes)
 	time += delta
 #	print(brain.nodes[0])
 #	print(brain.nodes[1])
