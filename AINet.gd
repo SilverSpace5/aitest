@@ -122,6 +122,7 @@ class AINet:
 			node2.position = Vector2(x*16, y*16)
 			pos.append(node2.position)
 			y += 1
+			i += 1
 		
 		for node2 in node.get_children():
 			for i2 in range(len(nodes[node2.i2][1])):
