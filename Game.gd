@@ -71,4 +71,4 @@ func _process(delta):
 func _ready():
 	for i in range(100):
 		randomize()
-		spawn(Vector2(rand_range(50, 950), rand_range(50, 550)))
+		spawn(Vector2(rand_range(50, 950), rand_range(50, 550)), lastNet)
