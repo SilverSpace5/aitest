@@ -1,6 +1,6 @@
 extends KinematicBody2D
 #HI
-var brain = AiNet.AINet.new(10, 3, 3, 5)
+var brain = AiNet.AINet.new(18, 3, 3, 5)
 var braincopy = []
 export (float) var speed = 50
 export (float) var rotateSpeed = 3
@@ -12,9 +12,17 @@ var move = Vector2(0, 0)
 var longestTime = 0
 var see = 0
 var dying = 0
+var raycasts = []
+var raycastShows = []
+onready var game = get_parent().get_parent()
 
 func _ready():
-	get_parent().get_parent().entities += 1
+	energy = maxEnergy
+	game.entities += 1
+	for child in $raycasts.get_children():
+		raycasts.append(child)
+	for child in $raycastShows.get_children():
+		raycastShows.append(child)
 
 func _process(delta):
 	time += delta
@@ -24,52 +32,40 @@ func _process(delta):
 #	print(brain.nodes[3])
 	if braincopy != []:
 		brain.copy(braincopy)
-		brain.change(5, 100, 3, 100, 1, 100)
+		brain.change(5, 100, 3, 50, 1, 25)
 		braincopy = []
 	
-	energy -= 1
-	$Label.text = str(round(energy/maxEnergy*100)) + "%"
+	energy = clamp(energy, 0, maxEnergy*5)
+	$Node2D/Label.text = str(round(energy/maxEnergy*100)) + "%"
 	
-	var du = 500 # Up Distance
-	var dd = 500 # Down Distance
-	var dl = 500 # Left Distance
-	var dr = 500 # Right Distance
+	# raycast distance
+	var rd = [500, 500, 500, 500, 500, 500, 500, 500]
+	var colliders = [0, 0, 0, 0, 0, 0, 0, 0]
 	
-	if $up.is_colliding():
-		du = position.distance_to($up.get_collision_point())*2
-	if $down.is_colliding():
-		dd = position.distance_to($down.get_collision_point())*2
-	if $left.is_colliding():
-		dl = position.distance_to($left.get_collision_point())*2
-	if $right.is_colliding():
-		dr = position.distance_to($right.get_collision_point())*2
+	for i in range(len(raycasts)):
+		var raycast = raycasts[i]
+		if raycast.is_colliding():
+			rd[i] = position.distance_to(raycast.get_collision_point())*2
 	
-	$rightShow.visible = $right.is_colliding()
-	$rightShow.position.x = dr
-	$leftShow.visible = $left.is_colliding()
-	$leftShow.position.x = -dl
-	$upShow.visible = $up.is_colliding()
-	$upShow.position.y = -du
-	$downShow.visible = $down.is_colliding()
-	$downShow.position.y = dd
+	$raycastShows.visible = game.showRaycasts
+	if game.showRaycasts:
+		for i in range(len(raycastShows)):
+			var raycast = raycastShows[i]
+			raycast.scale.x = rd[i]
 	
-	var colliders = [0, 0, 0, 0]
-	
-	var raycasts = [$right, $left, $up, $down]
-	
-	for i in range(len(raycasts)-1):
+	for i in range(len(raycasts)):
 		var raycast = raycasts[i]
 		if raycast.is_colliding() and raycast.get_collider():
 			if "banana" in raycast.get_collider().name:
-				colliders[i] = 1
+				colliders[i] = 1/4
 			if "Entity" in raycast.get_collider().name:
-				colliders[i] = 2
+				colliders[i] = 2/4
 			if "StaticBody2D" in raycast.get_collider().name:
-				colliders[i] = 3
+				colliders[i] = 3/4
 			if "coconut" in raycast.get_collider().name:
-				colliders[i] = 4
+				colliders[i] = 4/4
 	
-	brain.setInput([du/500, colliders[0], dd/500, colliders[1], dl/500, colliders[2], dr/500, colliders[3], energy, 1])
+	brain.setInput([rd[0]/500, colliders[0], rd[1]/500, colliders[1], rd[2]/500, colliders[2], rd[3]/500, colliders[3], rd[4]/500, colliders[4], rd[5]/500, colliders[5], rd[6]/500, colliders[6], rd[7]/500, colliders[7], energy/maxEnergy, 1])
 	brain.update()
 	var output = brain.output()
 	if output[0] > 0.5:
@@ -79,33 +75,43 @@ func _process(delta):
 	if output[2] > 0.5:
 		rotation_degrees -= rotateSpeed
 	
-	if energy <= 0 or dying > 0:
+	if (energy <= 0 and game.entities > game.maxEntities/20) or dying > 0:
 		dying += delta
 		$AnimationPlayer.play("despawn")
 		if dying >= 0.5:
-			get_parent().get_parent().entities -= 1
-			if time > get_parent().get_parent().longestTime and time >= 10:
-				get_parent().get_parent().longestTime = time
-				get_parent().get_parent().lastNet = brain.nodes
+			game.entities -= 1
+			if time > game.longestTime and time >= 10:
+				game.longestTime = time
+				game.lastNet = brain.nodes
 			queue_free()
+	if energy <= 0 and game.entities <= game.maxEntities/20:
+		energy = maxEnergy
+		dying = 0
+		$AnimationPlayer.stop()
+		$Sprite.scale = Vector2(0, 0)
+		$Sprite.rotation_degrees = 0
+		position = Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500))
+		game.spawn(Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500)), brain.nodes)
+		brain.change(5, 100, 3, 100, 1, 100)
 	
 	vel *= 0.9
+	$Node2D/Label.visible = energy >= 0
+	$Node2D.rotation_degrees = -rotation_degrees
 	if dying <= 0:
 		var oldPos = position
 		move_and_slide(Vector2(vel, 0).rotated(rotation))
 		move = position-oldPos
-	else:
-		$Label.text = ""
+		energy -= 0.25+move.length()/10
 	
 
 func _on_foodDetect_area_entered(area):
 	if area.name == "banana":
-		energy += 37.5
+		energy += maxEnergy/4
 		area.get_parent().queue_free()
-		get_parent().get_parent().food -= 1
-		get_parent().get_parent().spawn(position-move*3, brain.nodes)
+		game.food -= 1
+		game.spawn(position-move*3, brain.nodes)
 	if area.name == "coconut":
-		energy = maxEnergy
+		energy += maxEnergy
 		area.get_parent().queue_free()
-		get_parent().get_parent().food -= 1
-		get_parent().get_parent().spawn(position-move*3, brain.nodes)
+		game.food -= 1
+		game.spawn(position-move*3, brain.nodes)

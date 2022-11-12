@@ -2,12 +2,14 @@
 
 [ext_resource path="res://Entity.gd" type="Script" id=1]
 [ext_resource path="res://bean.png" type="Texture" id=2]
+[ext_resource path="res://defualt.tres" type="DynamicFont" id=3]
+[ext_resource path="res://raycast.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 22, 6 )
 
 [sub_resource type="RectangleShape2D" id=7]
-extents = Vector2( 15.3333, 12.3889 )
+extents = Vector2( 34.5, 47.4669 )
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -92,12 +94,8 @@ tracks/1/keys = {
 "values": [ 360.0, 0.0 ]
 }
 
-[sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 350, 6 )
-
-[sub_resource type="CubeMesh" id=9]
-
 [node name="Entity" type="KinematicBody2D"]
+position = Vector2( 7, 6 )
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
 maxEnergy = 500.0
@@ -110,42 +108,136 @@ rotation = 6.28319
 scale = Vector2( 6, 6 )
 texture = ExtResource( 2 )
 
-[node name="down" type="RayCast2D" parent="."]
-position = Vector2( 0, 18 )
-scale = Vector2( 5, 1 )
-enabled = true
-cast_to = Vector2( 0, 500 )
-collide_with_areas = true
+[node name="raycasts" type="Node2D" parent="."]
 
-[node name="up" type="RayCast2D" parent="."]
-position = Vector2( 0, -18 )
-scale = Vector2( 5, 1 )
-enabled = true
-cast_to = Vector2( 0, -500 )
-collide_with_areas = true
-
-[node name="left" type="RayCast2D" parent="."]
-position = Vector2( -34, 0 )
+[node name="0" type="RayCast2D" parent="raycasts"]
+position = Vector2( 38, 0 )
 scale = Vector2( 1, 5 )
 enabled = true
-cast_to = Vector2( -500, 0 )
+cast_to = Vector2( 500, 0 )
 collide_with_areas = true
+
+[node name="45" type="RayCast2D" parent="raycasts"]
+position = Vector2( 38, 20 )
+rotation = 0.392699
+scale = Vector2( 1, 5 )
+enabled = true
+cast_to = Vector2( 500, 0 )
+collide_with_areas = true
+
+[node name="90" type="RayCast2D" parent="raycasts"]
+position = Vector2( 0, 20 )
+rotation = 1.5708
+scale = Vector2( 1, 5 )
+enabled = true
+cast_to = Vector2( 500, 0 )
+collide_with_areas = true
+
+[node name="135" type="RayCast2D" parent="raycasts"]
+position = Vector2( -38, 20 )
+rotation = 2.35619
+scale = Vector2( 1, 5 )
+enabled = true
+cast_to = Vector2( 500, 0 )
+collide_with_areas = true
+
+[node name="180" type="RayCast2D" parent="raycasts"]
+position = Vector2( -38, -3.8147e-06 )
+rotation = 3.14159
+scale = Vector2( 1, 5 )
+enabled = true
+cast_to = Vector2( 500, 0 )
+collide_with_areas = true
+
+[node name="225" type="RayCast2D" parent="raycasts"]
+position = Vector2( -38, -20 )
+rotation = 3.92699
+scale = Vector2( 1, 5 )
+enabled = true
+cast_to = Vector2( 500, 0 )
+collide_with_areas = true
+
+[node name="270" type="RayCast2D" parent="raycasts"]
+position = Vector2( 0, -20 )
+rotation = 4.71239
+scale = Vector2( 1, 5 )
+enabled = true
+cast_to = Vector2( 500, 0 )
+collide_with_areas = true
+
+[node name="315" type="RayCast2D" parent="raycasts"]
+position = Vector2( 38, -20 )
+rotation = 5.89049
+scale = Vector2( 1, 5 )
+enabled = true
+cast_to = Vector2( 500, 0 )
+collide_with_areas = true
+
+[node name="raycastShows" type="Node2D" parent="."]
+
+[node name="0" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( 38, 9.53674e-06 )
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
+
+[node name="45" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( 38, 20 )
+rotation = 0.392699
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
+
+[node name="90" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( 0, 20 )
+rotation = 1.5708
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
+
+[node name="135" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( -38, 20 )
+rotation = 2.35619
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
+
+[node name="180" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( -38, 1.90735e-06 )
+rotation = 3.14159
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
+
+[node name="225" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( -38, -20 )
+rotation = 3.92699
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
+
+[node name="270" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( 0, -20 )
+rotation = 4.71239
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
+
+[node name="315" type="Sprite" parent="raycastShows"]
+modulate = Color( 1, 1, 1, 0.196078 )
+position = Vector2( 38, -20 )
+rotation = 5.89049
+scale = Vector2( 1e-05, 10 )
+texture = ExtResource( 4 )
 
 [node name="foodDetect" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="foodDetect"]
 modulate = Color( 0, 1, 0.156863, 1 )
-position = Vector2( 42.6039, -3.86865e-07 )
+position = Vector2( -7.58962e-07, -7.7486e-07 )
 rotation = 1.5708
 scale = Vector2( 0.521739, 0.758424 )
 shape = SubResource( 7 )
-
-[node name="right" type="RayCast2D" parent="."]
-position = Vector2( 56, 0 )
-scale = Vector2( 1, 5 )
-enabled = true
-cast_to = Vector2( 500, 0 )
-collide_with_areas = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "spawn"
@@ -153,39 +245,19 @@ anims/RESET = SubResource( 2 )
 anims/despawn = SubResource( 4 )
 anims/spawn = SubResource( 3 )
 
-[node name="Label" type="Label" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Node2D"]
 margin_left = -44.0
-margin_top = -38.0
+margin_top = -54.0
 margin_right = 0.0180016
-margin_bottom = -24.0
+margin_bottom = -37.0
 rect_scale = Vector2( 2, 2 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
+custom_fonts/font = ExtResource( 3 )
 text = "0"
 align = 1
 
-[node name="eyes" type="Area2D" parent="."]
-visible = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="eyes"]
-position = Vector2( 350, 0 )
-shape = SubResource( 8 )
-disabled = true
-
-[node name="upShow" type="MeshInstance2D" parent="."]
-scale = Vector2( 3, 3 )
-mesh = SubResource( 9 )
-
-[node name="downShow" type="MeshInstance2D" parent="."]
-scale = Vector2( 3, 3 )
-mesh = SubResource( 9 )
-
-[node name="rightShow" type="MeshInstance2D" parent="."]
-scale = Vector2( 3, 3 )
-mesh = SubResource( 9 )
-
-[node name="leftShow" type="MeshInstance2D" parent="."]
-scale = Vector2( 3, 3 )
-mesh = SubResource( 9 )
-
 [connection signal="area_entered" from="foodDetect" to="." method="_on_foodDetect_area_entered"]
-[connection signal="area_entered" from="eyes" to="." method="_on_eyes_area_entered"]
-[connection signal="area_exited" from="eyes" to="." method="_on_eyes_area_exited"]

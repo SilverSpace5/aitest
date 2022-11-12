@@ -5,8 +5,8 @@
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
 cameraSpeed = 10
-startEntities = 200
-maxEntities = 200
+startEntities = 25
+maxEntities = 150
 maxFood = 200
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -25,6 +25,7 @@ color = Color( 0, 0, 0, 1 )
 polygon = PoolVector2Array( -710.649, -705.107, 1738.93, -704.922, 1734.37, 1402.86, -710.648, 1402.31, -711.299, -704.552, -105, -89, -3, 6, -168, 302, -173, 316, -169, 331, 50, 614, 58, 621, 68, 626, 468, 776, 485, 779, 499, 778, 726, 715, 740, 713, 755, 712, 975, 717, 984, 718, 995, 720, 1057, 754, 1067, 756, 1078, 754, 1252, 675, 1303, 637, 1334, 589, 1336, 586, 1340, 583, 1408, 541, 1409, 539, 1410, 536, 1401, 471, 1378, 401, 1377, 399, 1376, 397, 1256, 272, 1013, 3, 1012, 1, 1009, -1, 1004, -1, 471, -33, 14, -1, 7, 0, 1, 2, -3, 6, -105, -89 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 512, 300 )
 scale = Vector2( 5, 5 )
 current = true
 zoom = Vector2( 3.5, 3.5 )
@@ -32,3 +33,5 @@ smoothing_enabled = true
 smoothing_speed = 2.5
 
 [node name="Entities" type="Node2D" parent="."]
+
+[node name="food" type="Node2D" parent="."]

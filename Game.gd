@@ -11,7 +11,9 @@ var foodTimer = 0
 var cocunutTimer = 0
 var lastNet = []
 var longestTime = 0
-var auto = false
+var auto = true
+var showRaycasts = false
+var zoom = 1
 
 func spawn(pos=Vector2(0, 0), net=[]):
 	if entities < maxEntities:
@@ -29,14 +31,14 @@ func _process(delta):
 		if food < maxFood:
 			food += 1
 			var food = load("res://food.tscn").instance()
-			add_child(food)
+			$food.add_child(food)
 			food.position = Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500))
 	if cocunutTimer > 0.05:
 		cocunutTimer = 0
 		if food < maxFood:
 			food += 1
 			var food = load("res://food1.tscn").instance()
-			add_child(food)
+			$food.add_child(food)
 			food.position = Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500))
 	
 	if entities > 0 and auto:
@@ -57,8 +59,8 @@ func _process(delta):
 			if $Camera2D.position.y-node.position.y > yRange[1]:
 				yRange[1] = $Camera2D.position.y-node.position.y
 		var zoomAmount = (xRange[1]-xRange[0])/1024+(yRange[1]-yRange[0])/512
-		$Camera2D.zoom.x += ((zoomAmount+1)*1.5-$Camera2D.zoom.x)/10
-		$Camera2D.zoom.y += ((zoomAmount+1)*1.5-$Camera2D.zoom.y)/10
+		$Camera2D.zoom.x += (zoomAmount*2-$Camera2D.zoom.x)/10
+		$Camera2D.zoom.y += (zoomAmount*2-$Camera2D.zoom.y)/10
 		var posX = 0
 		var posY = 0
 		for value in posXs:
@@ -69,7 +71,12 @@ func _process(delta):
 		posY /= len(posYs)
 		$Camera2D.position = Vector2(posX, posY)
 	else:
-		$Camera2D.zoom = Vector2(1, 1)
+		if Input.is_action_pressed("zoomIn"):
+			zoom -= 0.015*zoom
+		if Input.is_action_pressed("zoomOut"):
+			zoom += 0.015*zoom
+		zoom = clamp(zoom, 0.1, 100)
+		$Camera2D.zoom = Vector2(zoom, zoom)
 		if Input.is_action_pressed("right"):
 			$Camera2D.position.x += cameraSpeed
 		if Input.is_action_pressed("left"):
@@ -81,6 +88,8 @@ func _process(delta):
 	
 	if Input.is_action_just_pressed("auto"):
 		auto = not auto
+	if Input.is_action_just_pressed("raycasts"):
+		showRaycasts = not showRaycasts
 	
 #	timer += delta
 #	if timer > 0.5:
@@ -89,6 +98,9 @@ func _process(delta):
 #		spawn(Vector2(rand_range(50, 950), rand_range(50, 550)))
 	
 	if entities < 1:
+		food = 0
+		for child in $food.get_children():
+			child.queue_free()
 		for i in range(startEntities):
 			randomize()
 			spawn(Vector2(rand_range(50, 950), rand_range(50, 550)), lastNet)
