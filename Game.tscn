@@ -4,21 +4,20 @@
 
 [node name="Game" type="Node2D"]
 script = ExtResource( 1 )
+cameraSpeed = 10
+startEntities = 200
 maxEntities = 200
 maxFood = 200
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-visible = false
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
 position = Vector2( 1879.08, -1847.47 )
 rotation = 1.5708
 scale = Vector2( 3.074, 5.409 )
 polygon = PoolVector2Array( 0, -0.578674, 471.065, -33.8542, 1010.42, -1.44675, 1332.47, 349.826, 1378.18, 396.412, 1402.01, 471.74, 1405.09, 487.269, 1410.88, 528.935, 1411.17, 536.458, 1409.43, 541.667, 1338.54, 586.227, 1298.9, 644.097, 1260.42, 672.164, 1201, 702, 1067, 760, 992.766, 722.222, 940.683, 718.75, 741.03, 715.278, 658.275, 734.954, 502.315, 778.646, 485.243, 780.382, 470.814, 778.779, 432.292, 764.468, 293.981, 713.252, 54.3982, 622.107, 25.1736, 584.491, -71.7592, 459.491, -148.727, 360.243, -170.718, 332.465, -174.769, 317.419, -168.154, 301.272, 0, -0.578674, -60, -57, -344, 311, -53, 670, 461, 899, 877, 908, 1111, 985, 1636, 716, 1673, 250, 1118, -64, -60, -57 )
-disabled = true
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
-visible = false
 position = Vector2( 1879.08, -1846.47 )
 rotation = 1.5708
 scale = Vector2( 3.074, 5.409 )

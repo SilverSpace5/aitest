@@ -10,9 +10,9 @@ extents = Vector2( 9.99919, 6.90223 )
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="food" type="Area2D" parent="."]
+[node name="banana" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="food"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="banana"]
 position = Vector2( -0.550492, 0.714829 )
 rotation = 0.656244
 shape = SubResource( 1 )

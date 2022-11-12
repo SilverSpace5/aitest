@@ -2,7 +2,6 @@
 
 [ext_resource path="res://Entity.gd" type="Script" id=1]
 [ext_resource path="res://bean.png" type="Texture" id=2]
-[ext_resource path="res://icon.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 22, 6 )
@@ -96,6 +95,8 @@ tracks/1/keys = {
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 350, 6 )
 
+[sub_resource type="CubeMesh" id=9]
+
 [node name="Entity" type="KinematicBody2D"]
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
@@ -115,7 +116,6 @@ scale = Vector2( 5, 1 )
 enabled = true
 cast_to = Vector2( 0, 500 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="up" type="RayCast2D" parent="."]
 position = Vector2( 0, -18 )
@@ -123,7 +123,6 @@ scale = Vector2( 5, 1 )
 enabled = true
 cast_to = Vector2( 0, -500 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="left" type="RayCast2D" parent="."]
 position = Vector2( -34, 0 )
@@ -131,7 +130,6 @@ scale = Vector2( 1, 5 )
 enabled = true
 cast_to = Vector2( -500, 0 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="foodDetect" type="Area2D" parent="."]
 
@@ -148,7 +146,6 @@ scale = Vector2( 1, 5 )
 enabled = true
 cast_to = Vector2( 500, 0 )
 collide_with_areas = true
-collide_with_bodies = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "spawn"
@@ -173,9 +170,21 @@ position = Vector2( 350, 0 )
 shape = SubResource( 8 )
 disabled = true
 
-[node name="Icon" type="Sprite" parent="."]
-visible = false
-texture = ExtResource( 3 )
+[node name="upShow" type="MeshInstance2D" parent="."]
+scale = Vector2( 3, 3 )
+mesh = SubResource( 9 )
+
+[node name="downShow" type="MeshInstance2D" parent="."]
+scale = Vector2( 3, 3 )
+mesh = SubResource( 9 )
+
+[node name="rightShow" type="MeshInstance2D" parent="."]
+scale = Vector2( 3, 3 )
+mesh = SubResource( 9 )
+
+[node name="leftShow" type="MeshInstance2D" parent="."]
+scale = Vector2( 3, 3 )
+mesh = SubResource( 9 )
 
 [connection signal="area_entered" from="foodDetect" to="." method="_on_foodDetect_area_entered"]
 [connection signal="area_entered" from="eyes" to="." method="_on_eyes_area_entered"]

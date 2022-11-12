@@ -4,13 +4,13 @@
 [ext_resource path="res://food1.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 8 )
+extents = Vector2( 6, 6 )
 
 [node name="Food1" type="Sprite"]
 texture = ExtResource( 1 )
 script = ExtResource( 2 )
 
-[node name="food1" type="Area2D" parent="."]
+[node name="coconut" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="food1"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="coconut"]
 shape = SubResource( 1 )
