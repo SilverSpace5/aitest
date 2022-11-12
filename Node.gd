@@ -1,5 +1,7 @@
 extends Node2D
 
+var i2 = 0
+
 func connect2(position2):
 	var mesh = load("res://MeshInstance2D.tscn").instance()
 	add_child(mesh)
