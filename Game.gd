@@ -14,6 +14,7 @@ var longestTime = 0
 var auto = true
 var showRaycasts = false
 var zoom = 1
+var move = false
 
 func spawn(pos=Vector2(0, 0), net=[]):
 	if entities < maxEntities:
@@ -75,17 +76,28 @@ func _process(delta):
 			zoom -= 0.015*zoom
 		if Input.is_action_pressed("zoomOut"):
 			zoom += 0.015*zoom
-		zoom = clamp(zoom, 0.1, 100)
+		zoom = clamp(zoom, 1, 1.3)
+		move = false
 		$Camera2D.zoom = Vector2(zoom, zoom)
 		if Input.is_action_pressed("right"):
+			zoom += 0.015*zoom
+			move = true
 			$Camera2D.position.x += cameraSpeed
 		if Input.is_action_pressed("left"):
+			zoom += 0.015*zoom
+			move = true
 			$Camera2D.position.x -= cameraSpeed
 		if Input.is_action_pressed("up"):
+			zoom += 0.015*zoom
+			move = true
 			$Camera2D.position.y -= cameraSpeed
 		if Input.is_action_pressed("down"):
+			zoom += 0.015*zoom
+			move = true
 			$Camera2D.position.y += cameraSpeed
-	
+			
+		if move == false:
+			zoom -= 0.015*zoom
 	if Input.is_action_just_pressed("auto"):
 		auto = not auto
 	if Input.is_action_just_pressed("raycasts"):
