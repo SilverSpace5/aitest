@@ -1,6 +1,6 @@
 extends KinematicBody2D
 #HI
-var brain = AiNet.AINet.new(5, 3, 3, 3)
+var brain = AiNet.AINet.new(2, 3, 3, 3)
 var braincopy = []
 export (float) var speed = 50
 export (float) var rotateSpeed = 3
@@ -10,12 +10,17 @@ var vel = 0
 var time = 0
 var move = Vector2(0, 0)
 var longestTime = 0
+var see = 0
 
 func _ready():
 	get_parent().get_parent().entities += 1
 
 func _process(delta):
 	time += delta
+#	print(brain.nodes[0])
+#	print(brain.nodes[1])
+#	print(brain.nodes[2])
+#	print(brain.nodes[3])
 	if braincopy != []:
 		brain.copy(braincopy)
 		brain.change(5, 100, 3, 100, 1, 100)
@@ -29,7 +34,7 @@ func _process(delta):
 	var dl = $left.get_collision_point().x-position.x
 	var dr = $right.get_collision_point().x-position.x
 	
-	brain.setInput([du, dd, dl, dr, 1])
+	brain.setInput([see, 1])
 	brain.update()
 	var output = brain.output()
 	if output[0] > 0.5:
@@ -58,3 +63,13 @@ func _on_foodDetect_area_entered(area):
 		area.get_parent().queue_free()
 		get_parent().get_parent().food -= 1
 		get_parent().get_parent().spawn(position-move*3, brain.nodes)
+
+
+func _on_eyes_area_entered(area):
+	if area.name == "food":
+		see = 1
+#		print("",see)
+
+func _on_eyes_area_exited(area):
+	see = 0
+

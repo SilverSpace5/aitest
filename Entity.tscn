@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Entity.gd" type="Script" id=1]
 [ext_resource path="res://bean.png" type="Texture" id=2]
@@ -6,9 +6,8 @@
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 22, 6 )
 
-[sub_resource type="CapsuleShape2D" id=5]
-radius = 26.6667
-height = 35.5556
+[sub_resource type="RectangleShape2D" id=7]
+extents = Vector2( 15.3333, 12.3889 )
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -93,6 +92,9 @@ tracks/1/keys = {
 "values": [ 360.0, 0.0 ]
 }
 
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 350, 6 )
+
 [node name="Entity" type="KinematicBody2D"]
 scale = Vector2( 0.5, 0.5 )
 script = ExtResource( 1 )
@@ -131,13 +133,13 @@ collide_with_bodies = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="foodDetect"]
 modulate = Color( 0, 1, 0.156863, 1 )
-position = Vector2( 62.2222, 0 )
+position = Vector2( 42.6039, -3.86865e-07 )
 rotation = 1.5708
 scale = Vector2( 0.521739, 0.758424 )
-shape = SubResource( 5 )
+shape = SubResource( 7 )
 
 [node name="right" type="RayCast2D" parent="."]
-position = Vector2( 96, 0 )
+position = Vector2( 52, 0 )
 enabled = true
 cast_to = Vector2( 650, 0 )
 collide_with_areas = true
@@ -158,4 +160,12 @@ rect_scale = Vector2( 2, 2 )
 text = "0"
 align = 1
 
+[node name="eyes" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="eyes"]
+position = Vector2( 350, 0 )
+shape = SubResource( 8 )
+
 [connection signal="area_entered" from="foodDetect" to="." method="_on_foodDetect_area_entered"]
+[connection signal="area_entered" from="eyes" to="." method="_on_eyes_area_entered"]
+[connection signal="area_exited" from="eyes" to="." method="_on_eyes_area_exited"]
