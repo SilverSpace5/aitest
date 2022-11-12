@@ -73,6 +73,13 @@ func _on_foodDetect_area_entered(area):
 		get_parent().get_parent().food -= 1
 		get_parent().get_parent().spawn(position-move*3, brain.nodes)
 
+func _on_food1Detect_area_entered(area):
+	if area.name == "food1":
+		energy += 75
+		area.get_parent().queue_free()
+		get_parent().get_parent().food -= 1
+		get_parent().get_parent().spawn(position-move*3, brain.nodes)
+
 func _on_eyes_area_entered(area):
 	if area.name == "food":
 		see = 1
