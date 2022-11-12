@@ -25,7 +25,7 @@ func _ready():
 		raycastShows.append(child)
 
 func _process(delta):
-	brain.visual(game.get_node("visual"))
+	brain.visual(game.get_node("CanvasLayer/visual"))
 	time += delta
 #	print(brain.nodes[0])
 #	print(brain.nodes[1])

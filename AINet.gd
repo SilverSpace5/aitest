@@ -95,7 +95,7 @@ class AINet:
 			node.add_child(node2)
 			node2.position = Vector2(x*16, y*16)
 			y += 1
-			if i % inputs == 0:
+			if y > inputs:
 				y = 0
 				x += 1
 			i += 1
@@ -104,13 +104,15 @@ class AINet:
 			node.add_child(node2)
 			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
 			y += 1
-			if i % round(inputs/2) == 0:
+			if y > inputs:
 				y = 0
 				x += 1
 			i += 1
+		x += 1
+		y = 0
 		for i2 in range(outputs):
 			var node2 = load("res://Node.tscn").instance()
 			node.add_child(node2)
-			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
-			i += 1
+			node2.position = Vector2(x*16, y*16)
+			y += 1
 			

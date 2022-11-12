@@ -36,4 +36,7 @@ smoothing_speed = 2.5
 
 [node name="food" type="Node2D" parent="."]
 
-[node name="visual" type="Node2D" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="visual" type="Node2D" parent="CanvasLayer"]
+position = Vector2( 32, 32 )
