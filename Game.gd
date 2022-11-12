@@ -76,23 +76,23 @@ func _process(delta):
 			zoom -= 0.015*zoom
 		if Input.is_action_pressed("zoomOut"):
 			zoom += 0.015*zoom
-		zoom = clamp(zoom, 1, 1.3)
+		zoom = clamp(zoom, 1, 1.1)
 		move = false
 		$Camera2D.zoom = Vector2(zoom, zoom)
 		if Input.is_action_pressed("right"):
-			zoom += 0.015*zoom
+			zoom += 0.010*zoom
 			move = true
 			$Camera2D.position.x += cameraSpeed
 		if Input.is_action_pressed("left"):
-			zoom += 0.015*zoom
+			zoom += 0.010*zoom
 			move = true
 			$Camera2D.position.x -= cameraSpeed
 		if Input.is_action_pressed("up"):
-			zoom += 0.015*zoom
+			zoom += 0.010*zoom
 			move = true
 			$Camera2D.position.y -= cameraSpeed
 		if Input.is_action_pressed("down"):
-			zoom += 0.015*zoom
+			zoom += 0.010*zoom
 			move = true
 			$Camera2D.position.y += cameraSpeed
 			
