@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Entity.gd" type="Script" id=1]
 [ext_resource path="res://bean.png" type="Texture" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 22, 6 )
@@ -109,21 +110,24 @@ scale = Vector2( 6, 6 )
 texture = ExtResource( 2 )
 
 [node name="down" type="RayCast2D" parent="."]
-position = Vector2( 0, 16 )
+position = Vector2( 0, 18 )
+scale = Vector2( 5, 1 )
 enabled = true
 cast_to = Vector2( 0, 500 )
 collide_with_areas = true
 collide_with_bodies = false
 
 [node name="up" type="RayCast2D" parent="."]
-position = Vector2( 0, -16 )
+position = Vector2( 0, -18 )
+scale = Vector2( 5, 1 )
 enabled = true
 cast_to = Vector2( 0, -500 )
 collide_with_areas = true
 collide_with_bodies = false
 
 [node name="left" type="RayCast2D" parent="."]
-position = Vector2( -32, 0 )
+position = Vector2( -34, 0 )
+scale = Vector2( 1, 5 )
 enabled = true
 cast_to = Vector2( -500, 0 )
 collide_with_areas = true
@@ -139,9 +143,10 @@ scale = Vector2( 0.521739, 0.758424 )
 shape = SubResource( 7 )
 
 [node name="right" type="RayCast2D" parent="."]
-position = Vector2( 52, 0 )
+position = Vector2( 56, 0 )
+scale = Vector2( 1, 5 )
 enabled = true
-cast_to = Vector2( 650, 0 )
+cast_to = Vector2( 500, 0 )
 collide_with_areas = true
 collide_with_bodies = false
 
@@ -161,10 +166,16 @@ text = "0"
 align = 1
 
 [node name="eyes" type="Area2D" parent="."]
+visible = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="eyes"]
 position = Vector2( 350, 0 )
 shape = SubResource( 8 )
+disabled = true
+
+[node name="Icon" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 3 )
 
 [connection signal="area_entered" from="foodDetect" to="." method="_on_foodDetect_area_entered"]
 [connection signal="area_entered" from="eyes" to="." method="_on_eyes_area_entered"]
