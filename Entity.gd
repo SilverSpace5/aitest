@@ -31,7 +31,7 @@ func _process(delta):
 	showTimer += delta
 	if selected and showTimer > 0.1:
 		showTimer = 0
-		brain.visual(game.get_node("Camera2D/scale/visual"))
+		brain.visual(game.get_node("Camera2D/scale/visual"), 2)
 	if selected and (Input.is_action_just_pressed("auto") or Input.is_action_just_pressed("click")):
 		selected = false
 		for child in game.get_node("Camera2D/scale/visual").get_children():

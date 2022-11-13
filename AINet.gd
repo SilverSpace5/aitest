@@ -87,7 +87,7 @@ class AINet:
 							connected.append(i4)
 							nodes[i2][1].append([i4, rand_range(-2, 2)])
 	
-	func visual(node:Node2D):
+	func visual(node:Node2D, scale2=1):
 		for child in node.get_children():
 			child.queue_free()
 		var pos = []
@@ -114,5 +114,5 @@ class AINet:
 				for i2 in range(len(nodes[node2.i][1])-1):
 					var i = int(nodes[node2.i][1][i2][0])
 					if i < len(nodes):
-						node2.connect2(pos[i], nodes[node2.i][1][i2][1], posLocal[i])
+						node2.connect2(pos[i], nodes[node2.i][1][i2][1], posLocal[i], scale2)
 			
