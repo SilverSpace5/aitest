@@ -29,7 +29,7 @@ func _process(delta):
 	showTimer += delta
 	if showTimer > 1:
 		showTimer = 0
-		brain.visual(game.get_node("CanvasLayer/visual"))
+		brain.visual(game.get_node("Camera2D/scale/visual"))
 	time += delta
 #	print(brain.nodes[0])
 #	print(brain.nodes[1])

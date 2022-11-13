@@ -98,6 +98,9 @@ func _process(delta):
 			
 		if move == false:
 			zoom -= 0.015*zoom
+	
+	$Camera2D/scale.scale = $Camera2D.zoom
+	
 	if Input.is_action_just_pressed("auto"):
 		auto = not auto
 	if Input.is_action_just_pressed("raycasts"):

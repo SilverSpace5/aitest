@@ -87,44 +87,18 @@ class AINet:
 	func visual(node:Node2D):
 		for child in node.get_children():
 			child.queue_free()
-		var i = 0
-		var x = 0
-		var y = 0
 		var pos = []
-		for i2 in range(inputs):
-			var node2 = load("res://Node.tscn").instance()
-			node.add_child(node2)
-			node2.i2 = i
-			node2.position = Vector2(x*16, y*16)
-			pos.append(node2.position)
-			y += 1
-			if y > inputs:
-				y = 0
-				x += 1
-			i += 1
-		for i2 in range(len(nodes)-inputs-outputs):
-			var node2 = load("res://Node.tscn").instance()
-			node.add_child(node2)
-			node2.i2 = i
-			node2.position = Vector2(round(i/inputs)*16, (i % inputs) * 16)
-			pos.append(node2.position)
-			y += 1
-			if y > inputs:
-				y = 0
-				x += 1
-			i += 1
-		x += 1
-		y = 0
-		for i2 in range(outputs):
-			var node2 = load("res://Node.tscn").instance()
-			node.add_child(node2)
-			node2.i2 = i
-			node2.position = Vector2(x*16, y*16)
-			pos.append(node2.position)
-			y += 1
-			i += 1
+		var layer = int(inputs/2)
 		
-		for node2 in node.get_children():
-			for i2 in range(len(nodes[node2.i2][1])):
-				node2.connect2(pos[nodes[node2.i2][1][i2][0]])
+		for i in range(len(nodes)-1):
+			var node2 = load("res://Node.tscn").instance()
+			node.add_child(node2)
+			node2.i = i
+			node2.position = Vector2(round(i/layer)*16, (i%layer)*16)
+			pos.append(Vector2(round(i/layer)*16, (i%layer)*16))
+		
+#		for node2 in node.get_children():
+#			for i2 in range(len(nodes[node2.i][1])-1):
+#				var i = int(nodes[node2.i][1][i2][0])
+#				node2.connect2(pos[i])
 			
