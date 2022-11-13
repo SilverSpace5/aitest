@@ -120,7 +120,8 @@ func _process(delta):
 		$Sprite.scale = Vector2(0, 0)
 		$Sprite.rotation_degrees = 0
 		position = Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500))
-		game.spawn(Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500)), brain.nodes)
+		for i in range(3):
+			game.spawn(Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500)), brain.nodes)
 		brain.change(5, 100, 3, 100, 1, 100)
 	
 	vel *= 0.9

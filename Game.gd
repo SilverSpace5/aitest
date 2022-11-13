@@ -125,7 +125,7 @@ func _process(delta):
 		if move:
 			zoom = zoom2
 		else:
-			zoom = zoom2+0.05
+			zoom = zoom2-0.05
 
 	var selected = null
 	for node in $Entities.get_children():
@@ -134,7 +134,7 @@ func _process(delta):
 
 	if selected:
 		targetPos = selected.position
-		zoomAmount = 0.2
+		zoomAmount = 0.3
 	
 	$Camera2D.position += (targetPos-$Camera2D.position)/10
 	$Camera2D.zoom.x += (zoomAmount*2-$Camera2D.zoom.x)/10
