@@ -14,6 +14,7 @@ var longestTime = 0
 var auto = true
 var showRaycasts = false
 var zoom = 1
+var zoom2 = 0.5
 var move = false
 var showTimer = 0
 var zoomAmount = 1
@@ -85,9 +86,10 @@ func _process(delta):
 		targetPos = Vector2(posX, posY)
 	else:
 		if Input.is_action_pressed("zoomIn"):
-			zoom -= 0.015*zoom
+			zoom2 -= 0.015*zoom2
 		if Input.is_action_pressed("zoomOut"):
-			zoom += 0.015*zoom
+			zoom2 += 0.015*zoom2
+		zoom2 = clamp(zoom2, 0.2, 1)
 		zoom = clamp(zoom, 0.2, 1)
 		move = false
 		zoomAmount = zoom
@@ -105,10 +107,10 @@ func _process(delta):
 			targetPos.y += cameraSpeed
 			
 		if move:
-			zoom = 0.8
+			zoom = zoom2
 		else:
-			zoom = 0.75
-	
+			zoom = zoom2+0.05
+
 	var selected = null
 	for node in $Entities.get_children():
 		if node.selected:
