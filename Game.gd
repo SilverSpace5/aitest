@@ -19,6 +19,7 @@ var move = false
 var showTimer = 0
 var zoomAmount = 1
 var targetPos = Vector2(512, 300)
+var best = false
 
 func spawn(pos=Vector2(0, 0), net=[]):
 	if entities < maxEntities:
@@ -29,6 +30,21 @@ func spawn(pos=Vector2(0, 0), net=[]):
 			entity.braincopy = net
 
 func _process(delta):
+	
+	
+	for child in $Entities.get_children():
+		child.best = false
+	if best:
+		var bestNode = null
+		var bestEnergy = 0
+		for child in $Entities.get_children():
+			if child.energy > bestEnergy:
+				if bestNode:
+					bestNode.best = false
+				bestNode = child
+				child.best = true
+				bestEnergy = child.energy
+	
 	$Mouse.position = get_global_mouse_position()
 #	showTimer += delta
 #	if showTimer >= 0.1 and entities > 0:
@@ -129,6 +145,8 @@ func _process(delta):
 		auto = not auto
 	if Input.is_action_just_pressed("raycasts"):
 		showRaycasts = not showRaycasts
+	if Input.is_action_just_pressed("best"):
+		best = not best
 	
 #	timer += delta
 #	if timer > 0.5:

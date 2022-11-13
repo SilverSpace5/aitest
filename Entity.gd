@@ -16,6 +16,7 @@ var raycasts = []
 var raycastShows = []
 var showTimer = 0
 var selected = false
+var best = false
 onready var game = get_parent().get_parent()
 
 func _ready():
@@ -35,7 +36,7 @@ func _process(delta):
 		selected = false
 		for child in game.get_node("Camera2D/scale/visual").get_children():
 			child.queue_free()
-	if $foodDetect.overlaps_area(game.get_node("Mouse")) and Input.is_action_just_pressed("click"):
+	if ($foodDetect.overlaps_area(game.get_node("Mouse")) and Input.is_action_just_pressed("click")) or best:
 		if not selected:
 			for child in get_parent().get_children():
 				child.selected = false
