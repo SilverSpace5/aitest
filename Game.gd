@@ -11,7 +11,7 @@ var foodTimer = 0
 var cocunutTimer = 0
 var lastNet = []
 var longestTime = 0
-var auto = true
+var auto = false
 var showRaycasts = false
 var zoom = 1
 var zoom2 = 0.5
@@ -101,31 +101,28 @@ func _process(delta):
 		posY /= len(posYs)
 		targetPos = Vector2(posX, posY)
 	else:
-		if Input.is_action_pressed("zoomIn"):
-			zoom2 -= 0.015*zoom2
-		if Input.is_action_pressed("zoomOut"):
-			zoom2 += 0.015*zoom2
-		zoom2 = clamp(zoom2, 0.2, 1)
-		zoom = clamp(zoom, 0.2, 1)
+		zoom = clamp(zoom, 0.5, 0.6)
 		move = false
 		zoomAmount = zoom
 		if Input.is_action_pressed("right"):
 			move = true
+			zoom += 0.010*zoom
 			targetPos.x += cameraSpeed
 		if Input.is_action_pressed("left"):
 			move = true
+			zoom += 0.010*zoom
 			targetPos.x -= cameraSpeed
 		if Input.is_action_pressed("up"):
 			move = true
+			zoom += 0.010*zoom
 			targetPos.y -= cameraSpeed
 		if Input.is_action_pressed("down"):
 			move = true
+			zoom += 0.010*zoom
 			targetPos.y += cameraSpeed
 			
-		if move:
-			zoom = zoom2
-		else:
-			zoom = zoom2-0.05
+		if move == false:
+			zoom -= 0.010*zoom
 
 	var selected = null
 	for node in $Entities.get_children():
