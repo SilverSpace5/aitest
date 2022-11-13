@@ -231,6 +231,8 @@ scale = Vector2( 1e-05, 10 )
 texture = ExtResource( 4 )
 
 [node name="foodDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="foodDetect"]
 modulate = Color( 0, 1, 0.156863, 1 )

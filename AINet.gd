@@ -24,13 +24,14 @@ class AINet:
 					node[1].append([i2, rand_range(-2, 2)])
 	
 	func update():
+		var oldNodes = nodes.duplicate(true)
 		for node in nodes:
 			var sum = 0
 			for connection in node[1]:
-				if connection[0]-1 < 0 or connection[0]-1 >= len(nodes):
+				if connection[0]-1 < 0 or connection[0]-1 >= len(oldNodes):
 					node[1].remove(node[1].find(connection))
 				else:
-					sum += nodes[connection[0]-1][0] * connection[1]
+					sum += oldNodes[connection[0]-1][0] * connection[1]
 			node[0] = tanh(sum)
 	
 	func setInput(inputs):
@@ -45,6 +46,8 @@ class AINet:
 	
 	func copy(nodes):
 		self.nodes = nodes.duplicate(true)
+		for node in self.nodes:
+			node[0] = 0
 	
 	func change(maxEdits, editChance, maxConnections, connectionsChance, maxNodes, nodeChance):
 		for i in range(round(rand_range(0, maxEdits))):
@@ -88,17 +91,28 @@ class AINet:
 		for child in node.get_children():
 			child.queue_free()
 		var pos = []
-		var layer = int(inputs/2)
+		var posLocal = []
+		var layer = int(inputs/4)
 		
-		for i in range(len(nodes)-1):
+		for i in range(len(nodes)):
 			var node2 = load("res://Node.tscn").instance()
 			node.add_child(node2)
 			node2.i = i
-			node2.position = Vector2(round(i/layer)*16, (i%layer)*16)
-			pos.append(Vector2(round(i/layer)*16, (i%layer)*16))
+			node2.position = Vector2(Global.getRandom(0, round(len(nodes)/layer), i), Global.getRandom(0, round(len(nodes)/layer), i*2))*16
+			node2.get_node("node").scale = Vector2(0.25, 0.25)
+			if i < inputs:
+				node2.get_node("node/inner").modulate = Color(0, 1, 0)
+			if i >= len(nodes)-outputs:
+				node2.get_node("node/inner").modulate = Color(1, 0, 0)
+			if nodes[i][0] > 0:
+				node2.get_node("node").scale = Vector2(nodes[i][0], nodes[i][0])
+			pos.append(node2.global_position)
+			posLocal.append(node2.position)
 		
-#		for node2 in node.get_children():
-#			for i2 in range(len(nodes[node2.i][1])-1):
-#				var i = int(nodes[node2.i][1][i2][0])
-#				node2.connect2(pos[i])
+		for node2 in node.get_children():
+			if node2.i < len(nodes):
+				for i2 in range(len(nodes[node2.i][1])-1):
+					var i = int(nodes[node2.i][1][i2][0])
+					if i < len(nodes):
+						node2.connect2(pos[i], nodes[node2.i][1][i2][1], posLocal[i])
 			

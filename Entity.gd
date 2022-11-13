@@ -15,6 +15,7 @@ var dying = 0
 var raycasts = []
 var raycastShows = []
 var showTimer = 0
+var selected = false
 onready var game = get_parent().get_parent()
 
 func _ready():
@@ -27,9 +28,25 @@ func _ready():
 
 func _process(delta):
 	showTimer += delta
-	if showTimer > 1:
+	if selected and showTimer > 0.1:
 		showTimer = 0
 		brain.visual(game.get_node("Camera2D/scale/visual"))
+	if selected and (Input.is_action_just_pressed("auto") or Input.is_action_just_pressed("click")):
+		selected = false
+		for child in game.get_node("Camera2D/scale/visual").get_children():
+			child.queue_free()
+	if $foodDetect.overlaps_area(game.get_node("Mouse")) and Input.is_action_just_pressed("click"):
+		if not selected:
+			for child in get_parent().get_children():
+				child.selected = false
+			selected = true
+	if selected:
+		$Sprite.scale = Vector2(7, 7)
+	else:
+		$Sprite.scale = Vector2(6, 6)
+#	Area2D
+#	if $foodDetect.
+
 	time += delta
 #	print(brain.nodes[0])
 #	print(brain.nodes[1])
@@ -62,13 +79,15 @@ func _process(delta):
 		var raycast = raycasts[i]
 		if raycast.is_colliding() and raycast.get_collider():
 			if "banana" in raycast.get_collider().name:
-				colliders[i] = 1/4
+				colliders[i] = 1/5
 			if "Entity" in raycast.get_collider().name:
-				colliders[i] = 2/4
+				colliders[i] = 2/5
 			if "StaticBody2D" in raycast.get_collider().name:
-				colliders[i] = 3/4
+				colliders[i] = 3/5
 			if "coconut" in raycast.get_collider().name:
-				colliders[i] = 4/4
+				colliders[i] = 4/5
+			if  "Objects" in raycast.get_collider().name:
+				colliders[i] = 5/5
 	
 	brain.setInput([rd[0]/500, colliders[0], rd[1]/500, colliders[1], rd[2]/500, colliders[2], rd[3]/500, colliders[3], rd[4]/500, colliders[4], rd[5]/500, colliders[5], rd[6]/500, colliders[6], rd[7]/500, colliders[7], energy/maxEnergy, 1])
 	brain.update()
@@ -89,6 +108,10 @@ func _process(delta):
 				game.longestTime = time
 				game.lastNet = brain.nodes
 			queue_free()
+			if selected:
+				selected = false
+				for child in game.get_node("Camera2D/scale/visual").get_children():
+					child.queue_free()
 	if energy <= 0 and game.entities <= game.maxEntities/20:
 		energy = maxEnergy
 		dying = 0

@@ -15,6 +15,9 @@ var auto = true
 var showRaycasts = false
 var zoom = 1
 var move = false
+var showTimer = 0
+var zoomAmount = 1
+var targetPos = Vector2(512, 300)
 
 func spawn(pos=Vector2(0, 0), net=[]):
 	if entities < maxEntities:
@@ -25,6 +28,17 @@ func spawn(pos=Vector2(0, 0), net=[]):
 			entity.braincopy = net
 
 func _process(delta):
+	$Mouse.position = get_global_mouse_position()
+#	showTimer += delta
+#	if showTimer >= 0.1 and entities > 0:
+#		showTimer = 0
+#		var closesDis = 0
+#		var closestEntity = Node2D
+#		for entity in $Entities.get_children():
+#			if closesDis == 0 or entity.position.distance_to($Camera2D.position) < closesDis:
+#				closesDis = entity.position.distance_to($Camera2D.position)
+#				closestEntity = entity
+#		closestEntity.brain.visual($Camera2D/scale/visual)
 	foodTimer += delta
 	cocunutTimer += delta
 	if foodTimer > 0:
@@ -43,7 +57,7 @@ func _process(delta):
 			food.position = Vector2(rand_range(-1500, 1500), rand_range(-1500, 1500))
 	
 	if entities > 0 and auto:
-		$Camera2D.zoom = Vector2(0.5, 0.5)
+		zoomAmount = 0.5
 		var posXs = []
 		var posYs = []
 		var xRange = [0, 0]
@@ -59,9 +73,7 @@ func _process(delta):
 				yRange[0] = $Camera2D.position.y-node.position.y
 			if $Camera2D.position.y-node.position.y > yRange[1]:
 				yRange[1] = $Camera2D.position.y-node.position.y
-		var zoomAmount = (xRange[1]-xRange[0])/1024+(yRange[1]-yRange[0])/512
-		$Camera2D.zoom.x += (zoomAmount*2-$Camera2D.zoom.x)/10
-		$Camera2D.zoom.y += (zoomAmount*2-$Camera2D.zoom.y)/10
+		zoomAmount = ((xRange[1]-xRange[0])/1024+(yRange[1]-yRange[0])/512)/4
 		var posX = 0
 		var posY = 0
 		for value in posXs:
@@ -70,35 +82,45 @@ func _process(delta):
 			posY += value
 		posX /= len(posXs)
 		posY /= len(posYs)
-		$Camera2D.position = Vector2(posX, posY)
+		targetPos = Vector2(posX, posY)
 	else:
 		if Input.is_action_pressed("zoomIn"):
 			zoom -= 0.015*zoom
 		if Input.is_action_pressed("zoomOut"):
 			zoom += 0.015*zoom
-		zoom = clamp(zoom, 1, 1.1)
+		zoom = clamp(zoom, 0.2, 1)
 		move = false
-		$Camera2D.zoom = Vector2(zoom, zoom)
+		zoomAmount = zoom
 		if Input.is_action_pressed("right"):
-			zoom += 0.010*zoom
 			move = true
-			$Camera2D.position.x += cameraSpeed
+			targetPos.x += cameraSpeed
 		if Input.is_action_pressed("left"):
-			zoom += 0.010*zoom
 			move = true
-			$Camera2D.position.x -= cameraSpeed
+			targetPos.x -= cameraSpeed
 		if Input.is_action_pressed("up"):
-			zoom += 0.010*zoom
 			move = true
-			$Camera2D.position.y -= cameraSpeed
+			targetPos.y -= cameraSpeed
 		if Input.is_action_pressed("down"):
-			zoom += 0.010*zoom
 			move = true
-			$Camera2D.position.y += cameraSpeed
+			targetPos.y += cameraSpeed
 			
-		if move == false:
-			zoom -= 0.015*zoom
+		if move:
+			zoom = 0.8
+		else:
+			zoom = 0.75
 	
+	var selected = null
+	for node in $Entities.get_children():
+		if node.selected:
+			selected = node
+
+	if selected:
+		targetPos = selected.position
+		zoomAmount = 0.2
+	
+	$Camera2D.position += (targetPos-$Camera2D.position)/10
+	$Camera2D.zoom.x += (zoomAmount*2-$Camera2D.zoom.x)/10
+	$Camera2D.zoom.y += (zoomAmount*2-$Camera2D.zoom.y)/10
 	$Camera2D/scale.scale = $Camera2D.zoom
 	
 	if Input.is_action_just_pressed("auto"):
