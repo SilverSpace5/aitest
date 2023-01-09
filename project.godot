@@ -12,7 +12,7 @@ config_version=4
 
 config/name="Bean God"
 run/main_scene="res://Game.tscn"
-config/icon="res://icon.png"
+config/icon="res://pixil-frame-0 - 2022-12-29T000001.668.png"
 
 [autoload]
 
